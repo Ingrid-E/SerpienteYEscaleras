@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class Dado {
+	//atributos
 	private int lado;
 	private ImageIcon[] image;
 	private JLabel dado;
