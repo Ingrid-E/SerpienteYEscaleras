@@ -13,7 +13,7 @@ public class Ficha extends JPanel {
 	private JLabel ficha;
 	
 	public Ficha(String color) {
-		
+		this.color = color;
 	}
 	
 	private void moverse(int posicion) {
