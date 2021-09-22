@@ -1,42 +1,63 @@
 package codigo;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Dado {
+public class Dado extends JPanel{
+	private static final long serialVersionUID = 1L;
 	//atributos
 	private int lado;
-	private ImageIcon[] image;
-	private JLabel dado;
+	private ImageIcon[] cara = asignarImagenes();
+	private JLabel dado = new JLabel();
 	private Timer timer;
-	private int numeroDado;
 	
 	//constructor
 	public Dado() {
-		image = new ImageIcon[6];
+		this.setLayout(null);
+		this.dado.setIcon(cara[3]);
+		this.dado.setBounds(0, 0, 80, 80);
+		this.setSize(80, 80);
+		this.add(dado);
+	}
+
+	
+	private ImageIcon[] asignarImagenes() {
+		ImageIcon[] imagenes = new ImageIcon[6];
+		InputStream input;
+		BufferedImage caraDados = null;
+		try {
+			input = Tabla.class.getResourceAsStream("/img/dado.jpg");
+			caraDados = ImageIO.read(input);
+			for(int i=0; i < 6; i++) {
+				imagenes[i] = new ImageIcon(caraDados.getSubimage(i*80, 0, 80, 80));
+			}
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return imagenes;
+		
 	}
 	
-	private void initGui() {
-		image[0] = new ImageIcon("src/imagenes/dado1.png");
-		image[1] = new ImageIcon("src/imagenes/dado2.png");
-		image[2] = new ImageIcon("src/imagenes/dado3.png");
-		image[3] = new ImageIcon("src/imagenes/dado4.png");
-		image[4] = new ImageIcon("src/imagenes/dado5.png");
-		image[5] = new ImageIcon("src/imagenes/dado6.png");
-	}
-	
-	//random(0,6)
-	private int lanzar() {
+	//random(0,5)
+	public void lanzar() {
 		Random random = new Random();
-		numeroDado = random.nextInt(5) + 1;//0->1;1->2;2->3;3->4;4->5;5->6
-		return numeroDado;
+		int numeroDado = random.nextInt(6);//0->1;1->2;2->3;3->4;4->5;
+		girar(numeroDado);
 	}
 	
-	//Animación del dado girando
-	private void girar() {
-		dado.setIcon(image[lanzar()]);
+	//Animaciï¿½n del dado girando
+	private void girar(int valor) {
+		dado.setIcon(cara[valor]);
 	}
 }
