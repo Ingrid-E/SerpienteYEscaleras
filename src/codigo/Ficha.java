@@ -12,9 +12,9 @@ public class Ficha extends JPanel {
 	private Timer moverse;
 	private ImageIcon image;
 	private JLabel ficha;
-	
+	protected static final int tamaño = 20;
 	public Ficha(Color color) {
-		this.setSize(30, 30);
+		this.setSize(tamaño,tamaño);
 		this.setBackground(color);
 	}
 	

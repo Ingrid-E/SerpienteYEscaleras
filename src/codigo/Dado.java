@@ -18,13 +18,14 @@ public class Dado extends JPanel{
 	private ImageIcon[] cara = asignarImagenes();
 	private JLabel dado = new JLabel();
 	private Timer timer;
+	protected static final int tamaño = 60;
 	
 	//constructor
 	public Dado() {
 		this.setLayout(null);
 		this.dado.setIcon(cara[3]);
-		this.dado.setBounds(0, 0, 80, 80);
-		this.setSize(80, 80);
+		this.dado.setBounds(0, 0, tamaño, tamaño);
+		this.setSize(tamaño, tamaño);
 		this.add(dado);
 	}
 
@@ -37,7 +38,7 @@ public class Dado extends JPanel{
 			input = Tabla.class.getResourceAsStream("/img/dado.jpg");
 			caraDados = ImageIO.read(input);
 			for(int i=0; i < 6; i++) {
-				imagenes[i] = new ImageIcon(caraDados.getSubimage(i*80, 0, 80, 80));
+				imagenes[i] = new ImageIcon(caraDados.getSubimage(i*tamaño, 0, tamaño, tamaño));
 			}
 			
 			

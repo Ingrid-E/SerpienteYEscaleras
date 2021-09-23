@@ -22,12 +22,13 @@ public class Tabla extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static JFrame ventana;
-	private static ImageIcon imgFondo = new ImageIcon(Tabla.class.getResource("/img/fondo.jpg"));
-	private static ImageIcon imgBotones = new ImageIcon(Tabla.class.getResource("/img/botones.png"));
+	private static ImageIcon imgFondo = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/fondo.jpg")), 630, 700).resize());
+	private static ImageIcon imgBotones = new ImageIcon(Tabla.class.getResource("/img/botones.png"));	
+
 	private static ImageIcon imgTabla = new ImageIcon(Tabla.class.getResource("/img/tabla.png"));
-	private static ImageIcon imgJugador1 = new ImageIcon(Tabla.class.getResource("/img/jugador1.png"));
-	private static ImageIcon imgJugador2 = new ImageIcon(Tabla.class.getResource("/img/jugador2.png"));
-	private static ImageIcon imgJugador3 = new ImageIcon(Tabla.class.getResource("/img/jugador3.png"));
+	private static ImageIcon imgJugador1 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador1.png")), 70, 70).resize());
+	private static ImageIcon imgJugador2 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador2.png")), 70, 70).resize());
+	private static ImageIcon imgJugador3 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador3.png")), 70, 70).resize());
 	private static JLabel iconoJugador1,iconoJugador2, iconoJugador3;
 	public static Font fuente = Tabla.loadFont();
 	private static Color amarillo = new Color(246,184,81);
@@ -36,7 +37,7 @@ public class Tabla extends JFrame {
 	private static JPanel jugar = boton("Jugar");
 	private static JPanel reglas = boton("Reglas");
 	private static JLabel salir = new JLabel("x");
-	private static JPanel lanzar = boton("Lanzar", 136,44,36);
+	private static JPanel lanzar = boton("Lanzar", 93,30,24);
 	private Escucha escucha = new Escucha();
 	private static Dado dado = new Dado();
 	private static Ficha ficha1 = new Ficha(Color.RED);
@@ -49,33 +50,33 @@ public class Tabla extends JFrame {
 		ventana = this;
 		
 		fondo.setIcon(imgFondo);
-		fondo.setBounds(0,0,900,1000);
+		fondo.setBounds(0,0,630,700);
 		
-		jugar.setBounds(278, 353, 345, 106);
-		reglas.setBounds(278, 541, 345, 106);
-		lanzar.setBounds(156, 908, 136, 44);
+		jugar.setBounds(182, 254, 260, 80);
+		reglas.setBounds(182, 399, 260, 80);
+		lanzar.setBounds(142, 620, 93, 30);
 		
 		
 		salir.setForeground(Color.WHITE);
-		salir.setFont(fuente.deriveFont(48f));
-		salir.setBounds(857, 0, 28, 58);
+		salir.setFont(fuente.deriveFont(36f));
+		salir.setBounds(602, 0, 21, 44);
 		salir.addMouseListener(escucha);
 		
 		iconoJugador1 = new JLabel(); iconoJugador2 = new JLabel(); iconoJugador3 = new JLabel();
 		iconoJugador1.setIcon(imgJugador1);iconoJugador2.setIcon(imgJugador2);iconoJugador3.setIcon(imgJugador3);
 		
-		iconoJugador1.setBounds(505, 879, 100, 100);
-		iconoJugador2.setBounds(627, 879, 100, 100);
-		iconoJugador3.setBounds(750, 879, 100, 100);
+		iconoJugador1.setBounds(336, 600, 70, 70);
+		iconoJugador2.setBounds(428, 600, 70, 70);
+		iconoJugador3.setBounds(520, 600, 70, 70);
 		
-		dado.setBounds(50, 890, 80, 80);
+		dado.setBounds(47, 605, Dado.tamaño, Dado.tamaño);
 	
 		
 		ventana.setUndecorated(true);
 		ventana.setLayout(null);
 		ventana.setResizable(false);
 		ventana.setVisible(true);
-		ventana.setSize(900, 1000);
+		ventana.setSize(630, 700);
 		ventana.getContentPane().setBackground(azul);
 		ventana.setLocationRelativeTo(null);
 		cambiarVentana("Menu");
@@ -97,9 +98,10 @@ public class Tabla extends JFrame {
 	
 	private static void menu() {
 		JLabel titulo = new JLabel("Serpientes y Escaleras");
-		titulo.setFont(fuente.deriveFont(72f));
+		titulo.setFont(fuente.deriveFont(52f));
 		titulo.setForeground(amarillo);
-		titulo.setBounds(68,138,790,90);
+		titulo.setBounds(0,90,630,58);
+		titulo.setHorizontalAlignment(JLabel.CENTER);
 		
 		
 		
@@ -112,15 +114,15 @@ public class Tabla extends JFrame {
 	private static void juego() {
 		JPanel juegoDeMesa = new JPanel();
 		juegoDeMesa.setLayout(null);
-		juegoDeMesa.setBounds(50, 58, 800, 800);
+		juegoDeMesa.setBounds(40, 35, 550, 550);
 		
 		JLabel tabla = new JLabel();
-		tabla.setIcon(imgTabla);
-		tabla.setBounds(0, 0, 800, 800);
+		tabla.setIcon((new ImageResize(imgTabla, 550,550)).resize());
+		tabla.setBounds(0, 0, 550, 550);
 		
-		ficha1.setBounds(10, 726, 30, 30);
-		ficha2.setBounds(45, 746, 30, 30);
-		ficha3.setBounds(10, 761, 30, 30);
+		ficha1.setBounds(7, 500, Ficha.tamaño, Ficha.tamaño);
+		ficha2.setBounds(30, 515, Ficha.tamaño, Ficha.tamaño);
+		ficha3.setBounds(7, 525, Ficha.tamaño, Ficha.tamaño);
 		
 		juegoDeMesa.add(ficha1);
 		juegoDeMesa.add(ficha2);
@@ -170,17 +172,19 @@ public class Tabla extends JFrame {
 		panel.setOpaque(false);
 		
 		JLabel text = new JLabel(texto);
-		text.setFont(fuente.deriveFont(64f));
+		text.setFont(fuente.deriveFont(45f));
 		text.setForeground(azul);
-		text.setBounds(0, 14, 345, 77);
+		text.setBounds(0, 14, 260, 53);
 		text.setHorizontalAlignment(JLabel.CENTER);
 		
 		JButton button = new JButton();
-		button.setIcon(imgBotones);
+		ImageIcon imagen = (new ImageResize(imgBotones, 260,80)).resize();
+		ImageIcon imagenMouse = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/botones_hover.png")), 260,80)).resize();
+		button.setIcon(imagen);
 		button.setFocusable(false);
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
-		button.setSize(345,106);
+		button.setSize(260,80);
 		
 		button.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -189,11 +193,11 @@ public class Tabla extends JFrame {
 				}
 			}
 		    public void mouseEntered(MouseEvent e) {
-		        button.setIcon(new ImageIcon(Tabla.class.getResource("/img/botones_hover.png")));
+		        button.setIcon(imagenMouse);
 		    }
 
 		    public void mouseExited(MouseEvent e) {
-		        button.setIcon(imgBotones);
+		        button.setIcon(imagen);
 
 		    }
 		});
