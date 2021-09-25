@@ -43,7 +43,11 @@ public class Tabla extends JFrame {
 	private static Ficha ficha1 = new Ficha(Color.RED);
 	private static Ficha ficha2 = new Ficha(Color.GREEN);
 	private static Ficha ficha3 = new Ficha(Color.BLUE);
-	
+	private static int inixFicha1 = 7;
+	private static int iniyFicha1 = 500;
+	private int inixFicha2 = 30;
+	private int inixFicha3 = 7;
+	private static int lanzamiento = 0;
 	
 	
 	public Tabla() {
@@ -69,7 +73,7 @@ public class Tabla extends JFrame {
 		iconoJugador2.setBounds(428, 600, 70, 70);
 		iconoJugador3.setBounds(520, 600, 70, 70);
 		
-		dado.setBounds(47, 605, Dado.tamaño, Dado.tamaño);
+		dado.setBounds(47, 605, Dado.tama, Dado.tama);
 	
 		
 		ventana.setUndecorated(true);
@@ -119,10 +123,10 @@ public class Tabla extends JFrame {
 		JLabel tabla = new JLabel();
 		tabla.setIcon((new ImageResize(imgTabla, 550,550)).resize());
 		tabla.setBounds(0, 0, 550, 550);
-		
-		ficha1.setBounds(7, 500, Ficha.tamaño, Ficha.tamaño);
-		ficha2.setBounds(30, 515, Ficha.tamaño, Ficha.tamaño);
-		ficha3.setBounds(7, 525, Ficha.tamaño, Ficha.tamaño);
+		//------------------------------>>>>>>>>Fichas<<<<<<<<--------------------------------//
+		ficha1.setBounds(7, 500, Ficha.tama, Ficha.tama);
+		ficha2.setBounds(30, 515, Ficha.tama, Ficha.tama);
+		ficha3.setBounds(7, 525, Ficha.tama, Ficha.tama);
 		
 		juegoDeMesa.add(ficha1);
 		juegoDeMesa.add(ficha2);
@@ -136,6 +140,23 @@ public class Tabla extends JFrame {
 		ventana.add(iconoJugador3);
 		ventana.add(lanzar);
 		ventana.add(juegoDeMesa);
+	}
+	
+	public static void moverFicha() {
+		//Ejemplo columna 1: coordenadas 7-505 (aumenta en x de 55 en 55)
+		lanzamiento +=1;
+		if(lanzamiento == 1||inixFicha1<227) {
+			inixFicha1 += (55*(dado.lado()+1));
+			ficha1.setBounds(inixFicha1, 500, Ficha.tama, Ficha.tama);
+		}
+		else {
+			if(inixFicha1==227 && dado.lado()<5||inixFicha1==282 && dado.lado()<4||inixFicha1==337 && dado.lado()<3
+					||inixFicha1==392 && dado.lado()<2||inixFicha1==447 && dado.lado()<1) {
+				inixFicha1 += (55*(dado.lado()+1));
+				ficha1.setBounds(inixFicha1, 500, Ficha.tama, Ficha.tama);
+			}
+		}
+
 	}
 	
 	
@@ -232,7 +253,9 @@ public class Tabla extends JFrame {
 		button.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Lanzar") {
-					dado.lanzar();
+					dado.seg(0);
+					dado.timer().start();
+					//dado.lanzar();
 				}
 			}
 		    public void mouseEntered(MouseEvent e) {

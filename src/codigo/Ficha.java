@@ -9,16 +9,12 @@ import javax.swing.Timer;
 
 public class Ficha extends JPanel {
 	//private Jugador jugador
-	private Timer moverse;
 	private ImageIcon image;
 	private JLabel ficha;
-	protected static final int tamaño = 20;
+	protected static final int tama = 20;
 	public Ficha(Color color) {
-		this.setSize(tamaño,tamaño);
+		this.setSize(tama,tama);
 		this.setBackground(color);
 	}
 	
-	private void moverse(int posicion) {
-		
-	}
 }

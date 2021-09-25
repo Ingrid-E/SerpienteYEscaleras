@@ -1,5 +1,7 @@
 package codigo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,17 +20,25 @@ public class Dado extends JPanel{
 	private ImageIcon[] cara = asignarImagenes();
 	private JLabel dado = new JLabel();
 	private Timer timer;
-	protected static final int tamaño = 60;
+	protected static final int tama = 60;
+	private int segundos;
+	private Escucha escucha;
 	
 	//constructor
 	public Dado() {
 		this.setLayout(null);
 		this.dado.setIcon(cara[3]);
-		this.dado.setBounds(0, 0, tamaño, tamaño);
-		this.setSize(tamaño, tamaño);
+		this.dado.setBounds(0, 0, tama, tama);
+		this.setSize(tama, tama);
 		this.add(dado);
+		segundos = 0;
+		escucha = new Escucha();
+		timer = new Timer(1000,escucha);
 	}
 
+	public void seg(int ini) {
+		segundos = ini;
+	}
 	
 	private ImageIcon[] asignarImagenes() {
 		ImageIcon[] imagenes = new ImageIcon[6];
@@ -38,7 +48,7 @@ public class Dado extends JPanel{
 			input = Tabla.class.getResourceAsStream("/img/dado.jpg");
 			caraDados = ImageIO.read(input);
 			for(int i=0; i < 6; i++) {
-				imagenes[i] = new ImageIcon(caraDados.getSubimage(i*tamaño, 0, tamaño, tamaño));
+				imagenes[i] = new ImageIcon(caraDados.getSubimage(i*tama, 0, tama, tama));
 			}
 			
 			
@@ -52,13 +62,44 @@ public class Dado extends JPanel{
 	
 	//random(0,5)
 	public void lanzar() {
+		
 		Random random = new Random();
-		int numeroDado = random.nextInt(6);//0->1;1->2;2->3;3->4;4->5;
+		int numeroDado = random.nextInt(6); //0->1; 1->2; 2->3; 3->4; 4->5;
 		girar(numeroDado);
+		
+		lado = numeroDado;
 	}
 	
 	//Animaci�n del dado girando
 	private void girar(int valor) {
 		dado.setIcon(cara[valor]);
 	}
+	
+	public Timer timer() {
+		return timer;
+	}
+	
+	public int lado() {
+		return lado;
+	}
+	
+	private class Escucha implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e) {
+			segundos += 1;
+			
+			Random random = new Random();
+			int numTemp = random.nextInt(6); //0->1; 1->2; 2->3; 3->4; 4->5;
+			
+			dado.setIcon(cara[numTemp]);
+			
+			if(segundos==4) {
+				timer.stop();
+				lanzar();
+				Tabla.moverFicha();
+			}
+		}
+		
+	}
+	
 }
