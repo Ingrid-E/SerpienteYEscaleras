@@ -6,12 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class Dado extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -21,9 +22,7 @@ public class Dado extends JPanel{
 	private JLabel dado = new JLabel();
 	private Timer timer;
 	protected static final int tama = 60;
-	private int segundos;
-	private Escucha escucha;
-	
+
 	//constructor
 	public Dado() {
 		this.setLayout(null);
@@ -31,14 +30,8 @@ public class Dado extends JPanel{
 		this.dado.setBounds(0, 0, tama, tama);
 		this.setSize(tama, tama);
 		this.add(dado);
-		segundos = 0;
-		escucha = new Escucha();
-		timer = new Timer(1000,escucha);
 	}
 
-	public void seg(int ini) {
-		segundos = ini;
-	}
 	
 	private ImageIcon[] asignarImagenes() {
 		ImageIcon[] imagenes = new ImageIcon[6];
@@ -60,19 +53,31 @@ public class Dado extends JPanel{
 		
 	}
 	
-	//random(0,5)
-	public void lanzar() {
-		
-		Random random = new Random();
-		int numeroDado = random.nextInt(6); //0->1; 1->2; 2->3; 3->4; 4->5;
-		girar(numeroDado);
-		
-		lado = numeroDado;
-	}
 	
 	//Animaci�n del dado girando
-	private void girar(int valor) {
-		dado.setIcon(cara[valor]);
+	public void lanzar() {
+		int fps = 80;
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			//Atributo
+			Random random = new Random();
+			int caraDado;
+			int milisegundos = fps;
+			//Metodo
+			@Override
+			public void run() {
+				caraDado = random.nextInt(6); //0->1; 1->2; 2->3; 3->4; 4->5;
+				dado.setIcon(cara[caraDado]);
+
+				if(milisegundos == fps*10) {
+					lado = caraDado+1;
+					timer.cancel();
+					Tabla.moverFicha();
+				}
+				milisegundos += fps;
+			}
+			
+		}, 0, fps);
 	}
 	
 	public Timer timer() {
@@ -83,23 +88,5 @@ public class Dado extends JPanel{
 		return lado;
 	}
 	
-	private class Escucha implements ActionListener{
-		
-		public void actionPerformed(ActionEvent e) {
-			segundos += 1;
-			
-			Random random = new Random();
-			int numTemp = random.nextInt(6); //0->1; 1->2; 2->3; 3->4; 4->5;
-			
-			dado.setIcon(cara[numTemp]);
-			
-			if(segundos==4) {
-				timer.stop();
-				lanzar();
-				Tabla.moverFicha();
-			}
-		}
-		
-	}
 	
 }

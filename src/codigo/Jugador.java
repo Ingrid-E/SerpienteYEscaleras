@@ -14,6 +14,10 @@ public class Jugador{
 		
 	}
 	
+	private Ficha ficha() {
+		return this.ficha();
+	}
+	
 	private void lanzarDado() {
 		
 	}

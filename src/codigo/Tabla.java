@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,6 +50,9 @@ public class Tabla extends JFrame {
 	private int inixFicha2 = 30;
 	private int inixFicha3 = 7;
 	private static int lanzamiento = 0;
+	private Jugador jugador;
+	private static int posicion = 1;
+	private static boolean direccion = true;
 	
 	
 	public Tabla() {
@@ -143,19 +148,56 @@ public class Tabla extends JFrame {
 	}
 	
 	public static void moverFicha() {
-		//Ejemplo columna 1: coordenadas 7-505 (aumenta en x de 55 en 55)
-		lanzamiento +=1;
-		if(lanzamiento == 1||inixFicha1<227) {
-			inixFicha1 += (55*(dado.lado()+1));
-			ficha1.setBounds(inixFicha1, 500, Ficha.tama, Ficha.tama);
-		}
-		else {
-			if(inixFicha1==227 && dado.lado()<5||inixFicha1==282 && dado.lado()<4||inixFicha1==337 && dado.lado()<3
-					||inixFicha1==392 && dado.lado()<2||inixFicha1==447 && dado.lado()<1) {
-				inixFicha1 += (55*(dado.lado()+1));
-				ficha1.setBounds(inixFicha1, 500, Ficha.tama, Ficha.tama);
+		int dir = 55;
+		
+		//true es derecha, false es izquierda
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			//Atributo
+			int movimientos = dado.lado();
+			int x = ficha1.getX();
+			int y = ficha1.getY();
+			@Override
+			public void run() {
+				System.out.println("Posicion: " + posicion);
+				
+				if(movimientos == 0) {
+					timer.cancel();
+				}else {
+					if(posicion%10 == 0 ) {
+						y -= 55;
+						ficha1.setLocation(x, y);
+					}
+					
+					if(direccion) {
+						System.out.println("Derecha: " + (x+dir));
+						if((x+dir) > 520) {
+							direccion = false;
+						}else {
+							x += dir;
+							ficha1.setLocation(x, y);
+						}
+					}else if(!direccion) {
+						System.out.println("Izquierda: " + (x-dir));
+						if((x-dir) < 0) {
+							direccion = true;
+						}else {
+							x -= dir;
+							ficha1.setLocation(x, y);
+						}
+					}
+					posicion++;
+					movimientos--;
+				}
+				
+				
+				
 			}
-		}
+			
+		}, 0, 500);
+		
+
 
 	}
 	
@@ -253,9 +295,7 @@ public class Tabla extends JFrame {
 		button.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Lanzar") {
-					dado.seg(0);
-					dado.timer().start();
-					//dado.lanzar();
+					dado.lanzar();
 				}
 			}
 		    public void mouseEntered(MouseEvent e) {
