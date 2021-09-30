@@ -41,7 +41,7 @@ public class Tabla extends JFrame {
 	private static JLabel salir = new JLabel("x");
 	private static JPanel lanzar = boton("Lanzar", 93,30,24);
 	private Escucha escucha = new Escucha();
-	private static Dado dado = new Dado();
+	protected static Dado dado = new Dado();
 	private static Ficha ficha1 = new Ficha(Color.RED);
 	private static Ficha ficha2 = new Ficha(Color.GREEN);
 	private static Ficha ficha3 = new Ficha(Color.BLUE);
@@ -138,6 +138,7 @@ public class Tabla extends JFrame {
 		juegoDeMesa.add(ficha3);
 		juegoDeMesa.add(tabla);
 		
+		Controlador controlador = new Controlador();
 		
 		ventana.add(dado);
 		ventana.add(iconoJugador1);
@@ -160,8 +161,6 @@ public class Tabla extends JFrame {
 			int y = ficha1.getY();
 			@Override
 			public void run() {
-				System.out.println("Posicion: " + posicion);
-				
 				if(movimientos == 0) {
 					timer.cancel();
 				}else {
@@ -171,7 +170,6 @@ public class Tabla extends JFrame {
 					}
 					
 					if(direccion) {
-						System.out.println("Derecha: " + (x+dir));
 						if((x+dir) > 520) {
 							direccion = false;
 						}else {
@@ -179,7 +177,6 @@ public class Tabla extends JFrame {
 							ficha1.setLocation(x, y);
 						}
 					}else if(!direccion) {
-						System.out.println("Izquierda: " + (x-dir));
 						if((x-dir) < 0) {
 							direccion = true;
 						}else {

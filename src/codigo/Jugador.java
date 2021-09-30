@@ -5,12 +5,19 @@ public class Jugador{
 	private int posicion;
 	private boolean esReal;
 	private Ficha ficha;
+	private Controlador controlador;
+	protected int turno;
 	
-	public Jugador(String nombre, boolean esReal){
-		
+	public Jugador(int turno, boolean esReal){
+		this.turno = turno;
 	}
 	
-	private void moverFicha(int cantidad) {
+	public Jugador(int turno, boolean esReal, Controlador controlador){
+		this.turno = turno;
+		this.controlador = controlador;
+	}
+	
+	protected void moverFicha(int cantidad) {
 		
 	}
 	
@@ -18,11 +25,12 @@ public class Jugador{
 		return this.ficha();
 	}
 	
-	private void lanzarDado() {
+	protected void lanzarDado() {
 		
 	}
 	
 	private int getPosicion() {
 		return posicion;
 	}
+
 }
