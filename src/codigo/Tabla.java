@@ -39,7 +39,7 @@ public class Tabla extends JFrame {
 	private static JPanel jugar = boton("Jugar");
 	private static JPanel reglas = boton("Reglas");
 	private static JLabel salir = new JLabel("x");
-	private static JPanel lanzar = boton("Lanzar", 93,30,24);
+	protected static JPanel lanzar = boton("Lanzar", 93,30,24);
 	private Escucha escucha = new Escucha();
 	protected static Dado dado = new Dado();
 	private static Ficha ficha1 = new Ficha(Color.RED);
@@ -50,9 +50,10 @@ public class Tabla extends JFrame {
 	private int inixFicha2 = 30;
 	private int inixFicha3 = 7;
 	private static int lanzamiento = 0;
-	private Jugador jugador;
 	private static int posicion = 1;
 	private static boolean direccion = true;
+	private static Jugador jugador1,jugador2, jugador3;
+	private static Controlador controlador;
 	
 	
 	public Tabla() {
@@ -65,6 +66,9 @@ public class Tabla extends JFrame {
 		reglas.setBounds(182, 399, 260, 80);
 		lanzar.setBounds(142, 620, 93, 30);
 		
+		jugador1 = new Jugador(1, ficha1);
+		jugador2 = new Jugador(2, ficha2);
+		jugador3 = new Jugador(3, ficha3);
 		
 		salir.setForeground(Color.WHITE);
 		salir.setFont(fuente.deriveFont(36f));
@@ -138,7 +142,10 @@ public class Tabla extends JFrame {
 		juegoDeMesa.add(ficha3);
 		juegoDeMesa.add(tabla);
 		
-		Controlador controlador = new Controlador();
+		Jugador[] jugadores = {jugador1, jugador2,jugador3};
+		
+		controlador = new Controlador(jugadores);
+		
 		
 		ventana.add(dado);
 		ventana.add(iconoJugador1);
@@ -147,57 +154,6 @@ public class Tabla extends JFrame {
 		ventana.add(lanzar);
 		ventana.add(juegoDeMesa);
 	}
-	
-	public static void moverFicha() {
-		int dir = 55;
-		
-		//true es derecha, false es izquierda
-		
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			//Atributo
-			int movimientos = dado.lado();
-			int x = ficha1.getX();
-			int y = ficha1.getY();
-			@Override
-			public void run() {
-				if(movimientos == 0) {
-					timer.cancel();
-				}else {
-					if(posicion%10 == 0 ) {
-						y -= 55;
-						ficha1.setLocation(x, y);
-					}
-					
-					if(direccion) {
-						if((x+dir) > 520) {
-							direccion = false;
-						}else {
-							x += dir;
-							ficha1.setLocation(x, y);
-						}
-					}else if(!direccion) {
-						if((x-dir) < 0) {
-							direccion = true;
-						}else {
-							x -= dir;
-							ficha1.setLocation(x, y);
-						}
-					}
-					posicion++;
-					movimientos--;
-				}
-				
-				
-				
-			}
-			
-		}, 0, 500);
-		
-
-
-	}
-	
 	
 	
 	public class Escucha extends MouseAdapter {
@@ -293,6 +249,33 @@ public class Tabla extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Lanzar") {
 					dado.lanzar();
+					lanzar.setVisible(false);
+					Timer timer = new Timer();
+					timer.schedule(new TimerTask() {
+						int counter = 0;
+						int movimientos = 0;
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							System.out.println(counter +" " + movimientos);
+							if(counter == 1) {
+								movimientos = dado.lado();
+								System.out.println(counter +" moviendo ficha");
+								jugador1.moverFicha(movimientos);
+							}
+
+							if(counter == movimientos && movimientos != 0) {
+								System.out.println("Jugador2");
+								controlador.turno = 2;
+								controlador.run();
+								timer.cancel();
+							}
+							counter++;
+							
+						}
+						
+					}, 500,1000);
+					
 				}
 			}
 		    public void mouseEntered(MouseEvent e) {

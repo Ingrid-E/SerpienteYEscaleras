@@ -72,7 +72,6 @@ public class Dado extends JPanel{
 				if(milisegundos == fps*10) {
 					lado = caraDado+1;
 					timer.cancel();
-					Tabla.moverFicha();
 				}
 				milisegundos += fps;
 			}

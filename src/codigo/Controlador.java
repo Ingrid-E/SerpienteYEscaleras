@@ -10,15 +10,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Controlador implements Runnable{
 	private Jugador jugador1, jugador2, jugador3;
-	private int turno;
+	protected int turno;
 	private static Thread hilo;
 	
-	public Controlador() {
-		this.turno = 2;
+	public Controlador(Jugador[] jugadores) {
+		this.turno = 1;
+		System.out.println(jugadores[0].turno);
+		jugador1 = jugadores[0];
+		jugador2 = jugadores[1];
+		jugador3 = jugadores[2];
+		
 		hilo = new Thread(this);
-		jugador1 = new Jugador(1, true);
-		jugador2 = new Jugador(2, true);
-		jugador3 = new Jugador(3,true);
 		hilo.start();
 	}
 	
@@ -35,27 +37,16 @@ public class Controlador implements Runnable{
 		//Segun el turno que llame al jugador que es para que tire 
 		System.out.println("Iniciando Hilo");
 		switch(turno) {
-		case 1:
-			try {
-				System.out.println("Esperando que lance jugador 1");
-				hilo.sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			break;
 		case 2:
 			//Esperar que se tire el dado
 			try {
-				System.out.println("Jugador 2: lanzo el dado");
+				Tabla.lanzar.setVisible(false); 
+
 				Tabla.dado.lanzar();
-				hilo.sleep(3000);
-				System.out.println("Obteniendo resultado...");
+				hilo.sleep(1000);
 				int movimientos = Tabla.dado.lado();
-				System.out.println("Jugador 2 mueve su ficha " + movimientos + " pasos");
 				jugador2.moverFicha(movimientos);
-				hilo.sleep(movimientos*800);
-				System.out.println("Jugador 2 termino de mover" );
+				hilo.sleep(movimientos*700);
 				turno++;
 				run();
 			} catch (InterruptedException e) {
@@ -66,24 +57,19 @@ public class Controlador implements Runnable{
 		case 3:
 			//Esperar que se tire el dado
 			try {
-				System.out.println("Jugador 3: lanzo el dado");
 				Tabla.dado.lanzar();
-				hilo.sleep(3000);
-				System.out.println("Obteniendo resultado...");
+				hilo.sleep(1000);
 				int movimientos = Tabla.dado.lado();
-				System.out.println("Jugador 3 mueve su ficha " + movimientos + " pasos");
-				jugador2.moverFicha(movimientos);
-				hilo.sleep(movimientos*800);
-				System.out.println("Jugador 3 termino de mover" );
+				jugador3.moverFicha(movimientos);
+				hilo.sleep(movimientos*700);
 				turno = 1;
+				Tabla.lanzar.setVisible(true);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		}
-
-		//hilo.interrupt();
 	}
 	
 	
