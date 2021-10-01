@@ -61,7 +61,7 @@ public class Controlador implements Runnable{
 				hilo.sleep(1000);
 				int movimientos = Tabla.dado.lado();
 				jugador3.moverFicha(movimientos);
-				hilo.sleep(movimientos*700);
+				hilo.sleep(movimientos*500);
 				turno = 1;
 				Tabla.lanzar.setVisible(true);
 			} catch (InterruptedException e) {

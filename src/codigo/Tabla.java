@@ -274,7 +274,7 @@ public class Tabla extends JFrame {
 							
 						}
 						
-					}, 500,1000);
+					}, 0,900);
 					
 				}
 			}
