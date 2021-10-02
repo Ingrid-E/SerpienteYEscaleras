@@ -15,7 +15,6 @@ public class Controlador implements Runnable{
 	
 	public Controlador(Jugador[] jugadores) {
 		this.turno = 1;
-		System.out.println(jugadores[0].turno);
 		jugador1 = jugadores[0];
 		jugador2 = jugadores[1];
 		jugador3 = jugadores[2];
@@ -35,7 +34,6 @@ public class Controlador implements Runnable{
 	@Override
 	public void run() {
 		//Segun el turno que llame al jugador que es para que tire 
-		System.out.println("Iniciando Hilo");
 		switch(turno) {
 		case 2:
 			//Esperar que se tire el dado

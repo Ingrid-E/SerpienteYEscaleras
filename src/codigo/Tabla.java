@@ -257,10 +257,8 @@ public class Tabla extends JFrame {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							System.out.println(counter +" " + movimientos);
 							if(counter == 1) {
 								movimientos = dado.lado();
-								System.out.println(counter +" moviendo ficha");
 								jugador1.moverFicha(movimientos);
 							}
 
