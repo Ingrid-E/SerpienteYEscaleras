@@ -15,6 +15,7 @@ public class Jugador{
 	protected int turno, escalera1, escalera2, escalera3, escalera4;
 	private boolean direccion;
 	private static ArrayList<Object[]> posEscaleras = new ArrayList<>();
+	private static ArrayList<Object[]> posSerpientes = new ArrayList<>();
 	public Jugador(int turno, Ficha ficha){
 		this.turno = turno;
 		this.ficha = ficha;
@@ -26,6 +27,11 @@ public class Jugador{
 		posEscaleras.add(new Object[] {59,-1,-3,true,81});
 		posEscaleras.add(new Object[] {69,-3,-3,false,94});
 		
+		posSerpientes.add(new Object[] {52,1,2,false,31});
+		posSerpientes.add(new Object[] {53,0,5,true,8});
+		posSerpientes.add(new Object[] {56,1,4,false,15});
+		posSerpientes.add(new Object[] {61,1,5,false,19});
+		posSerpientes.add(new Object[] {98,-1,3,true,61});
 		
 	}
 	
@@ -43,8 +49,22 @@ public class Jugador{
 			int y = ficha.getY();
 			@Override
 			public void run() {
+				
+				if(posicion==99 && n>1||posicion==98 && n>2||posicion==97 && n>3||
+						posicion==96 && n>4||posicion==95 && n>5) {
+					movimientos = 0;
+					timer.cancel();
+				}
+				
+				if(posicion==100) {
+					movimientos = 0;
+					Tabla.lanzar.setVisible(false);
+					timer.cancel();
+				}
+				
 				if(movimientos == 0) {
-					System.out.println("Posicion Final: " +  posicion);
+					//System.out.println("Posicion Final: " +  posicion);
+					
 					for(Object[] fila: posEscaleras) {
 						if((int)fila[0] == posicion) {
 							//posicion,x,y,direcion, posfinal
@@ -55,8 +75,21 @@ public class Jugador{
 							ficha.setLocation(x, y);
 						}
 					}
+					
+					for(Object[] filaSerpientes: posSerpientes) {
+						if((int)filaSerpientes[0] == posicion) {
+							//posicion,x,y,direcion, posfinal
+							y += dir*(int)filaSerpientes[2];
+							x += dir*(int)filaSerpientes[1];
+							direccion = (boolean)filaSerpientes[3];
+							posicion = (int)filaSerpientes[4];
+							ficha.setLocation(x, y);
+						}
+					}
+					
 					timer.cancel();
-				}else {
+				}
+				else {
 					//Cambiar direccion de la ficha
 					if((x+dir) > 525) {
 						direccion = false;
@@ -101,7 +134,7 @@ public class Jugador{
 		
 	}
 	
-	private int getPosicion() {
+	public int getPosicion() {
 		return posicion;
 	}
 

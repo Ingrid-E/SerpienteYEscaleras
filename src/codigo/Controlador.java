@@ -68,7 +68,7 @@ public class Controlador implements Runnable{
 			}
 			break;
 		}
+		
 	}
-	
 	
 }
