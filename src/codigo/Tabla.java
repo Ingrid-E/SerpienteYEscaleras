@@ -1,7 +1,6 @@
 package codigo;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -23,15 +22,18 @@ import complementos.ImageResize;
 public class Tabla extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static JFrame ventana;
+	protected static JFrame ventana;
 	private static ImageIcon imgFondo = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/fondo.jpg")), 630, 700).resize());
 	private static ImageIcon imgBotones = new ImageIcon(Tabla.class.getResource("/img/botones.png"));	
-
 	private static ImageIcon imgTabla = new ImageIcon(Tabla.class.getResource("/img/tabla.png"));
 	private static ImageIcon imgJugador1 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador1.png")), 70, 70).resize());
 	private static ImageIcon imgJugador2 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador2.png")), 70, 70).resize());
 	private static ImageIcon imgJugador3 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador3.png")), 70, 70).resize());
+	private static ImageIcon turnoActual = new ImageIcon(Tabla.class.getResource("/img/selectionCircle.png"));
+	private static ImageIcon imgSnake = new ImageIcon(Tabla.class.getResource("/img/snake.gif"));
+	private static ImageIcon imgEscalera = new ImageIcon(Tabla.class.getResource("/img/escalera.gif"));
 	private static JLabel iconoJugador1,iconoJugador2, iconoJugador3;
+	protected static JLabel jugadorActual,serpiente,escalera;
 	public static Font fuente = Tabla.loadFont();
 	private static Color amarillo = new Color(246,184,81);
 	private static Color azul = new Color(37,61,95);
@@ -45,13 +47,6 @@ public class Tabla extends JFrame {
 	private static Ficha ficha1 = new Ficha(Color.RED);
 	private static Ficha ficha2 = new Ficha(Color.GREEN);
 	private static Ficha ficha3 = new Ficha(Color.BLUE);
-	private static int inixFicha1 = 7;
-	private static int iniyFicha1 = 500;
-	private int inixFicha2 = 30;
-	private int inixFicha3 = 7;
-	private static int lanzamiento = 0;
-	private static int posicion = 1;
-	private static boolean direccion = true;
 	private static Jugador jugador1,jugador2, jugador3;
 	private static Controlador controlador;
 	
@@ -65,15 +60,26 @@ public class Tabla extends JFrame {
 		jugar.setBounds(182, 254, 260, 80);
 		reglas.setBounds(182, 399, 260, 80);
 		lanzar.setBounds(142, 620, 93, 30);
+	
 		
-		jugador1 = new Jugador(1, ficha1);
-		jugador2 = new Jugador(2, ficha2);
-		jugador3 = new Jugador(3, ficha3);
+		jugadorActual = new JLabel();
+		jugadorActual.setIcon(turnoActual);
 		
 		salir.setForeground(Color.WHITE);
 		salir.setFont(fuente.deriveFont(36f));
 		salir.setBounds(602, 0, 21, 44);
 		salir.addMouseListener(escucha);
+		
+		serpiente = new JLabel();
+		serpiente.setIcon(imgSnake);
+		serpiente.setBounds(-25, -25, 600, 600);
+		serpiente.setVisible(false);
+		
+		escalera = new JLabel();
+		escalera.setIcon(imgEscalera);
+		escalera.setBounds(100, 25, 350, 500);
+		escalera.setVisible(false);
+
 		
 		iconoJugador1 = new JLabel(); iconoJugador2 = new JLabel(); iconoJugador3 = new JLabel();
 		iconoJugador1.setIcon(imgJugador1);iconoJugador2.setIcon(imgJugador2);iconoJugador3.setIcon(imgJugador3);
@@ -92,6 +98,9 @@ public class Tabla extends JFrame {
 		ventana.setSize(630, 700);
 		ventana.getContentPane().setBackground(azul);
 		ventana.setLocationRelativeTo(null);
+		ventana.addMouseListener(escucha);
+		ventana.addMouseMotionListener(escucha);
+
 		cambiarVentana("Menu");
 	}
 	
@@ -104,6 +113,10 @@ public class Tabla extends JFrame {
 			break;
 		case "Juego":
 			juego();
+			break;
+		case "Reglas":
+			reglas();
+			break;
 		}
 		ventana.revalidate();
 		ventana.repaint();
@@ -124,6 +137,14 @@ public class Tabla extends JFrame {
 		ventana.add(fondo);
 	}
 	
+	private static void reglas() {
+		//Agreagar elementos de interfaz aqui como en menu() o juego()
+		//Agregar un boton para devolver al menu principal
+		ventana.add(fondo);
+	}
+	
+
+	
 	private static void juego() {
 		JPanel juegoDeMesa = new JPanel();
 		juegoDeMesa.setLayout(null);
@@ -137,26 +158,44 @@ public class Tabla extends JFrame {
 		ficha2.setBounds(30, 515, Ficha.tama, Ficha.tama);
 		ficha3.setBounds(7, 525, Ficha.tama, Ficha.tama);
 		
+		jugador1 = new Jugador(1, ficha1);
+		jugador2 = new Jugador(2, ficha2);
+		jugador3 = new Jugador(3, ficha3);
+		
+		jugadorActual.setBounds(334, 598, 74, 74);
+		
+		juegoDeMesa.add(escalera);
+		juegoDeMesa.add(serpiente);
 		juegoDeMesa.add(ficha1);
 		juegoDeMesa.add(ficha2);
 		juegoDeMesa.add(ficha3);
 		juegoDeMesa.add(tabla);
 		
 		Jugador[] jugadores = {jugador1, jugador2,jugador3};
-		
 		controlador = new Controlador(jugadores);
 		
+		Tabla.lanzar.setVisible(true);
 		
 		ventana.add(dado);
 		ventana.add(iconoJugador1);
 		ventana.add(iconoJugador2);
 		ventana.add(iconoJugador3);
+		ventana.add(jugadorActual);
 		ventana.add(lanzar);
 		ventana.add(juegoDeMesa);
 	}
 	
+	public static void finalJuego(int n) {
+		if(n == 0) {
+			cambiarVentana("Juego");
+		}else {
+			System.exit(0);
+		}
+	}
+	
 	
 	public class Escucha extends MouseAdapter {
+		private int x,y;
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getSource().equals(salir)) {
@@ -164,6 +203,17 @@ public class Tabla extends JFrame {
 			}else if(e.getSource().equals(jugar)) {
 				cambiarVentana("Juego");
 			}
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			x = e.getX();
+			y = e.getY();
+		}
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			ventana.setLocation(ventana.getLocation().x+e.getX()-x, ventana.getLocation().y +e.getY()-y);
 		}
 	}
 	
@@ -206,6 +256,8 @@ public class Tabla extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Jugar") {
 					cambiarVentana("Juego");
+				}else if(text.getText() == "Reglas") {
+					cambiarVentana("Reglas");
 				}
 			}
 		    public void mouseEntered(MouseEvent e) {
@@ -254,19 +306,28 @@ public class Tabla extends JFrame {
 					timer.schedule(new TimerTask() {
 						int counter = 0;
 						int movimientos = 0;
+						int terminar = movimientos;
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							if(counter == 1) {
 								movimientos = dado.lado();
+								terminar = movimientos+1;
 								jugador1.moverFicha(movimientos);
 							}
 
-							if(counter == movimientos && movimientos != 0) {
-								System.out.println("Jugador2");
-								controlador.turno = 2;
-								controlador.run();
-								timer.cancel();
+							if(terminar != 0) {
+								if(jugador1.serpiente || jugador1.escalera) {
+									terminar = counter + 2;
+								}else if(counter == terminar){
+									if(!jugador1.gano) {
+										controlador.turno = 2;
+										controlador.run();
+									}
+						
+									timer.cancel();
+								}
+								
 							}
 							counter++;
 							

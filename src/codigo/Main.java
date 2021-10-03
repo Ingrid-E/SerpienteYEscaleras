@@ -11,6 +11,7 @@ public class Main {
 			public void run() {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
+						@SuppressWarnings("unused")
 						Tabla ventana = new Tabla();
 						//GameGUI gameWindow = new GameGUI();
 					}

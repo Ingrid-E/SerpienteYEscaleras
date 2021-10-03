@@ -1,19 +1,19 @@
 package codigo;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
 public class Jugador{
-	private String nombre;
-	private int posicion;
-	private boolean esReal;
+	protected int posicion;
+	protected boolean serpiente, escalera, gano;
 	private Ficha ficha;
-	private Controlador controlador;
-	protected int turno, escalera1, escalera2, escalera3, escalera4;
+	protected int turno;
 	private boolean direccion;
+	private int opcionFinalizar;
+	
 	private static ArrayList<Object[]> posEscaleras = new ArrayList<>();
 	private static ArrayList<Object[]> posSerpientes = new ArrayList<>();
 	public Jugador(int turno, Ficha ficha){
@@ -21,11 +21,12 @@ public class Jugador{
 		this.ficha = ficha;
 		this.direccion = true;
 		this.posicion = 1;
+		this.gano = false;
 		posEscaleras.add(new Object[] {2,1,-3,false,38});
 		posEscaleras.add(new Object[] {28,-4,-6,true,84});
 		posEscaleras.add(new Object[] {43,1,-2,true,64});
 		posEscaleras.add(new Object[] {59,-1,-3,true,81});
-		posEscaleras.add(new Object[] {69,-3,-3,false,94});
+		posEscaleras.add(new Object[] {69,-3,-3,false,95});
 		
 		posSerpientes.add(new Object[] {52,1,2,false,31});
 		posSerpientes.add(new Object[] {53,0,5,true,8});
@@ -38,7 +39,8 @@ public class Jugador{
 	
 	public void moverFicha(int n) {
 		int dir = 55;
-		
+		this.serpiente = false;
+		this.escalera = false;
 		//true es derecha, false es izquierda
 		
 		Timer timer = new Timer();
@@ -47,47 +49,70 @@ public class Jugador{
 			int movimientos = n;
 			int x = ficha.getX();
 			int y = ficha.getY();
+			int terminar = 0;
 			@Override
 			public void run() {
-				
-				if(posicion==99 && n>1||posicion==98 && n>2||posicion==97 && n>3||
-						posicion==96 && n>4||posicion==95 && n>5) {
-					movimientos = 0;
+				if((posicion + movimientos) > 100) {
 					timer.cancel();
 				}
-				
 				if(posicion==100) {
-					movimientos = 0;
+					Object opciones[] = {"Otra", "Terminar"};
+					String ganador;
+					if(turno == 1) ganador = "Ganaste!";
+					else ganador = "Jugador " + turno + " gano!";
+					opcionFinalizar = JOptionPane.showOptionDialog(Tabla.ventana, ganador, "Quieres volver a jugar?", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[1]);
+					gano = true;
 					Tabla.lanzar.setVisible(false);
+					Tabla.finalJuego(opcionFinalizar);
 					timer.cancel();
 				}
 				
-				if(movimientos == 0) {
-					//System.out.println("Posicion Final: " +  posicion);
+				if(movimientos <= 0) {
+			
+					
+					Object[] subirBajar = null;
 					
 					for(Object[] fila: posEscaleras) {
 						if((int)fila[0] == posicion) {
-							//posicion,x,y,direcion, posfinal
-							y += dir*(int)fila[2];
-							x += dir*(int)fila[1];
-							direccion = (boolean)fila[3];
-							posicion = (int) fila[4];
-							ficha.setLocation(x, y);
+							subirBajar = fila;
+							escalera = true;
+							break;
 						}
 					}
 					
-					for(Object[] filaSerpientes: posSerpientes) {
-						if((int)filaSerpientes[0] == posicion) {
-							//posicion,x,y,direcion, posfinal
-							y += dir*(int)filaSerpientes[2];
-							x += dir*(int)filaSerpientes[1];
-							direccion = (boolean)filaSerpientes[3];
-							posicion = (int)filaSerpientes[4];
-							ficha.setLocation(x, y);
+					for(Object[] fila: posSerpientes) {
+						if((int)fila[0] == posicion) {
+							subirBajar = fila;
+							serpiente = true;
+							break;
 						}
 					}
 					
-					timer.cancel();
+					if(serpiente || escalera) {
+						if(serpiente) Tabla.serpiente.setVisible(true);
+						if(escalera) Tabla.escalera.setVisible(true);
+						terminar = -4;
+					}
+					
+					if(movimientos == terminar) {
+						
+						if(serpiente) Tabla.serpiente.setVisible(false);
+						if(escalera) Tabla.escalera.setVisible(false);
+						if(subirBajar != null) {
+							//posicion,x,y,direcion, posfinal
+							y += dir*(int)subirBajar[2];
+							x += dir*(int)subirBajar[1];
+							direccion = (boolean)subirBajar[3];
+							posicion = (int)subirBajar[4];
+							ficha.setLocation(x, y);
+						}
+						serpiente = false;
+						escalera = false;
+						System.out.println("Jugador: " + turno + " Posicion: " + posicion);
+						timer.cancel();
+					}
+					
+					
 				}
 				else {
 					//Cambiar direccion de la ficha
@@ -114,8 +139,8 @@ public class Jugador{
 					}
 					
 					posicion++;
-					movimientos--;
 				}
+				movimientos--;
 				
 				
 			}
@@ -124,10 +149,6 @@ public class Jugador{
 		
 
 
-	}
-	
-	private Ficha ficha() {
-		return this.ficha();
 	}
 	
 	protected void lanzarDado() {
