@@ -1,6 +1,6 @@
 /*
- * Programación interactiva
- * Autor: Ingrid Echeverry Montoya - 
+ * Programaciï¿½n interactiva
+ * Autor: Ingrid Echeverry Montoya - 1943542
  * Autor: Jhan Alejandro Perez Umbarila - 1941003
  * Juego de escaleras y serpientes 
  */
@@ -172,7 +172,7 @@ public class Jugador{
 	
 	
 	/**
-	 * Gets the posicion. Retorna la posición más actual en la que esta el jugador.
+	 * Gets the posicion. Retorna la posiciï¿½n mï¿½s actual en la que esta el jugador.
 	 * @return the posicion
 	 */
 	public int getPosicion() {

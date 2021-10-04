@@ -1,6 +1,6 @@
 /*
  * Programaci�n interactiva
- * Autor: Ingrid Echeverry Montoya - 
+ * Autor: Ingrid Echeverry Montoya - 1943542
  * Autor: Jhan Alejandro Perez Umbarila - 1941003
  * Juego de escaleras y serpientes 
  */

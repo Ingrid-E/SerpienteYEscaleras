@@ -1,6 +1,6 @@
 /*
- * Programación interactiva
- * Autor: Ingrid Echeverry Montoya - 
+ * Programaciï¿½n interactiva
+ * Autor: Ingrid Echeverry Montoya - 1943542
  * Autor: Jhan Alejandro Perez Umbarila - 1941003
  * Juego de escaleras y serpientes 
  */
@@ -19,7 +19,7 @@ public class Ficha extends JPanel {
 	protected static final int tama = 20;
 	
 	/**
-	 * Instantiates a new ficha. Permite crear una ficha con su respectivo tamaño y color.
+	 * Instantiates a new ficha. Permite crear una ficha con su respectivo tamaï¿½o y color.
 	 * @param color the color
 	 */
 	public Ficha(Color color) {

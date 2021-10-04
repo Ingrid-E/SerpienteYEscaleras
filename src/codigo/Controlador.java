@@ -1,6 +1,6 @@
 /*
- * Programación interactiva
- * Autor: Ingrid Echeverry Montoya - 
+ * Programaciï¿½n interactiva
+ * Autor: Ingrid Echeverry Montoya - 1943542
  * Autor: Jhan Alejandro Perez Umbarila - 1941003
  * Juego de escaleras y serpientes 
  */
@@ -30,7 +30,7 @@ public class Controlador implements Runnable{
 	
 
 	/**
-	 * Run. Inicializa a los jugadores 2 y 3 por orden, despues de que el jugador 1 (usuario: rojo), haya pulsado el botón lanzar
+	 * Run. Inicializa a los jugadores 2 y 3 por orden, despues de que el jugador 1 (usuario: rojo), haya pulsado el botï¿½n lanzar
 	 */
 	@SuppressWarnings("static-access")
 	@Override
