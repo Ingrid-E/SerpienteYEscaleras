@@ -1,10 +1,24 @@
+/*
+ * Programación interactiva
+ * Autor: Ingrid Echeverry Montoya - 
+ * Autor: Jhan Alejandro Perez Umbarila - 1941003
+ * Juego de escaleras y serpientes 
+ */
 package codigo;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Controlador. Se le da un comportamiento artificial a los jugadores 2 y 3 (verde, azul) 
+ */
 public class Controlador implements Runnable{
 	private Jugador jugador2, jugador3;
 	protected int turno;
 	private static Thread hilo;
 	
+	/**
+	 * Instantiates a new controlador. Constructor donde se crean y asignan los valores por defecto (iniciales) de cada uno de los atributos.
+	 * @param jugadores the jugadores
+	 */
 	public Controlador(Jugador[] jugadores) {
 		this.turno = 1;
 		jugador2 = jugadores[1];
@@ -14,14 +28,10 @@ public class Controlador implements Runnable{
 		hilo.start();
 	}
 	
-	public void start() {
-		
-	}
-	
-	public void turno(Jugador jugador) {
-		
-	}
 
+	/**
+	 * Run. Inicializa a los jugadores 2 y 3 por orden, despues de que el jugador 1 (usuario: rojo), haya pulsado el botón lanzar
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	public void run() {

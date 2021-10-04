@@ -1,3 +1,9 @@
+/*
+ * Programación interactiva
+ * Autor: Ingrid Echeverry Montoya - 
+ * Autor: Jhan Alejandro Perez Umbarila - 1941003
+ * Juego de escaleras y serpientes 
+ */
 package codigo;
 
 import java.awt.Color;
@@ -19,11 +25,15 @@ import javax.swing.JPanel;
 
 import complementos.ImageResize;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Tabla. Contiene el escenario con el que el jugador va a interactuar (fondo, escaleras, serpientes, dado, etc).
+ */
 public class Tabla extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	protected static JFrame ventana;
 	private static ImageIcon imgFondo = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/fondo.jpg")), 630, 700).resize());
+	private static ImageIcon imgReglas = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/reglas.jpg")), 630, 700).resize());
 	private static ImageIcon imgBotones = new ImageIcon(Tabla.class.getResource("/img/botones.png"));	
 	private static ImageIcon imgTabla = new ImageIcon(Tabla.class.getResource("/img/tabla.png"));
 	private static ImageIcon imgJugador1 = (new ImageResize(new ImageIcon(Tabla.class.getResource("/img/jugador1.png")), 70, 70).resize());
@@ -38,6 +48,7 @@ public class Tabla extends JFrame {
 	private static Color amarillo = new Color(246,184,81);
 	private static Color azul = new Color(37,61,95);
 	private static JLabel fondo = new JLabel();
+	private static JLabel fondoReglas = new JLabel();
 	private static JPanel jugar = boton("Jugar");
 	private static JPanel reglas = boton("Reglas");
 	private static JLabel salir = new JLabel("x");
@@ -51,6 +62,9 @@ public class Tabla extends JFrame {
 	private static Controlador controlador;
 	
 	
+	/**
+	 * Instantiates a new tabla. Constructor donde se crean y asignan los valores por defecto (iniciales) de cada uno de los atributos.
+	 */
 	public Tabla() {
 		ventana = this;
 		
@@ -104,6 +118,10 @@ public class Tabla extends JFrame {
 		cambiarVentana("Menu");
 	}
 	
+	/**
+	 * Cambiar ventana. Permite al usuario acceder a las diferentes ventanas en la interfaz del menu principal (jugar, reglas)
+	 * @param nombre the nombre
+	 */
 	private static void cambiarVentana(String nombre) {
 		ventana.getContentPane().removeAll();
 		ventana.add(salir);
@@ -122,6 +140,9 @@ public class Tabla extends JFrame {
 		ventana.repaint();
 	}
 	
+	/**
+	 * Menu. Contiene los componentes graficos de la ventana del menu principal
+	 */
 	private static void menu() {
 		JLabel titulo = new JLabel("Serpientes y Escaleras");
 		titulo.setFont(fuente.deriveFont(52f));
@@ -137,14 +158,20 @@ public class Tabla extends JFrame {
 		ventana.add(fondo);
 	}
 	
+	/**
+	 * Reglas. Contiene los componentes graficos de la ventana de reglas
+	 */
 	private static void reglas() {
-		//Agreagar elementos de interfaz aqui como en menu() o juego()
-		//Agregar un boton para devolver al menu principal
-		ventana.add(fondo);
+		fondoReglas.setIcon(imgReglas);
+		fondoReglas.setBounds(0,0,630,700);
+		ventana.add(fondoReglas);
 	}
 	
 
 	
+	/**
+	 * Juego. Contiene los componentes graficos de la ventana juego (donde el usuario ya comienza a jugar)
+	 */
 	private static void juego() {
 		JPanel juegoDeMesa = new JPanel();
 		juegoDeMesa.setLayout(null);
@@ -153,7 +180,7 @@ public class Tabla extends JFrame {
 		JLabel tabla = new JLabel();
 		tabla.setIcon((new ImageResize(imgTabla, 550,550)).resize());
 		tabla.setBounds(0, 0, 550, 550);
-		//------------------------------>>>>>>>>Fichas<<<<<<<<--------------------------------//
+
 		ficha1.setBounds(7, 500, Ficha.tama, Ficha.tama);
 		ficha2.setBounds(30, 515, Ficha.tama, Ficha.tama);
 		ficha3.setBounds(7, 525, Ficha.tama, Ficha.tama);
@@ -185,6 +212,10 @@ public class Tabla extends JFrame {
 		ventana.add(juegoDeMesa);
 	}
 	
+	/**
+	 * Final juego. En caso de que n sea 0 se mostrara la ventana juego, de lo contrario la interfaz se cerrara
+	 * @param n the n
+	 */
 	public static void finalJuego(int n) {
 		if(n == 0) {
 			cambiarVentana("Juego");
@@ -194,8 +225,19 @@ public class Tabla extends JFrame {
 	}
 	
 	
+	/**
+	 * The Class Escucha. Contiene metodos que permiten la interacción con la ventana a partir de eventos del mouse
+	 */
 	public class Escucha extends MouseAdapter {
+		
+		/** The y. */
 		private int x,y;
+		
+		/**
+		 * Mouse clicked. Sirve para desplazarse en las diferentes ventana de la interfaz (salir: salirse de la interfaz, 
+		 jugar: para ir a la ventana donde el usuario comienza a jugar)
+		 * @param e the e
+		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getSource().equals(salir)) {
@@ -204,12 +246,22 @@ public class Tabla extends JFrame {
 				cambiarVentana("Juego");
 			}
 		}
+		
+		/**
+		 * Mouse pressed. Cada que se presione en algún lugar de la ventana, las coordenadas x,y van a actualizarse
+		 * @param e the e
+		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
 			x = e.getX();
 			y = e.getY();
 		}
+		
+		/**
+		 * Mouse dragged. Permite desplazar nuestra ventana cuando arrastramos el mouse
+		 * @param e the e
+		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			// TODO Auto-generated method stub
@@ -218,6 +270,10 @@ public class Tabla extends JFrame {
 	}
 	
 	
+	/**
+	 * Load font. Carga una fuente de letra
+	 * @return the font
+	 */
 	private static Font loadFont() {
 		try {
 			fuente = Font.createFont(Font.TRUETYPE_FONT, new File(Tabla.class.getResource("/font/FredokaOne-Regular.ttf").getFile()));
@@ -231,6 +287,13 @@ public class Tabla extends JFrame {
 		return fuente;
 	}
 	
+	/**
+	 * Boton.
+	 *
+	 * @param texto the texto
+	 * @return the j panel
+	 */
+	//Jpanel
 	private static JPanel boton(String texto) {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -276,6 +339,16 @@ public class Tabla extends JFrame {
 		return panel;
 	}
 	
+	/**
+	 * Boton.
+	 *
+	 * @param texto the texto
+	 * @param ancho the ancho
+	 * @param altura the altura
+	 * @param letra the letra
+	 * @return the j panel
+	 */
+	//Jpanel
 	private static JPanel boton(String texto, int ancho, int altura, float letra) {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -298,6 +371,11 @@ public class Tabla extends JFrame {
 		button.setSize(ancho,altura);
 		
 		button.addMouseListener(new MouseAdapter() {
+			
+			/**
+			 * Mouse clicked. Contiene los eventos que ocurriran cuando se presione el boton lanzar
+			 * @param e the e
+			 */
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Lanzar") {
 					dado.lanzar();
@@ -337,6 +415,7 @@ public class Tabla extends JFrame {
 					
 				}
 			}
+			
 		    public void mouseEntered(MouseEvent e) {
 		        button.setIcon(imagenMouse);
 		    }

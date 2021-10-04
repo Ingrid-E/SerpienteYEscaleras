@@ -1,3 +1,9 @@
+/*
+ * Programación interactiva
+ * Autor: Ingrid Echeverry Montoya - 
+ * Autor: Jhan Alejandro Perez Umbarila - 1941003
+ * Juego de escaleras y serpientes 
+ */
 package codigo;
 
 import java.util.ArrayList;
@@ -6,6 +12,10 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Jugador. Contiene todos los datos y caracteristicas de un jugador.
+ */
 public class Jugador{
 	protected int posicion;
 	protected boolean serpiente, escalera, gano;
@@ -13,9 +23,14 @@ public class Jugador{
 	protected int turno;
 	private boolean direccion;
 	private int opcionFinalizar;
-	
 	private static ArrayList<Object[]> posEscaleras = new ArrayList<>();
 	private static ArrayList<Object[]> posSerpientes = new ArrayList<>();
+	
+	/**
+	 * Instantiates a new jugador. Constructor donde se crean y asignan los valores por defecto (iniciales) de cada uno de los atributos.
+	 * @param turno the turno
+	 * @param ficha the ficha
+	 */
 	public Jugador(int turno, Ficha ficha){
 		this.turno = turno;
 		this.ficha = ficha;
@@ -37,6 +52,10 @@ public class Jugador{
 	}
 	
 	
+	/**
+	 * Mover ficha. Permite que el jugador (ficha) se desplaze de acuerdo a la cantidad que aparece en el dado al lanzarlo
+	 * @param n the n
+	 */
 	public void moverFicha(int n) {
 		int dir = 55;
 		this.serpiente = false;
@@ -151,10 +170,11 @@ public class Jugador{
 
 	}
 	
-	protected void lanzarDado() {
-		
-	}
 	
+	/**
+	 * Gets the posicion. Retorna la posición más actual en la que esta el jugador.
+	 * @return the posicion
+	 */
 	public int getPosicion() {
 		return posicion;
 	}

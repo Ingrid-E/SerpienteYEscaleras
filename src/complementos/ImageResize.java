@@ -8,23 +8,34 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+// TODO: Auto-generated Javadoc
+
 /**
+ * The Class ImageResize.
+ *
  * @author Ingrid-E & Internet
  * @version 1.0
  * Class created to resize images such as gifs,png,jpg etc..
  * Found on the internet and modified to meet game requirements.
  */
 public class ImageResize {
+	
+	/** The height. */
 	//Atributes
 	private int width, height;
+	
+	/** The image type. */
 	private String imageType;
+	
+	/** The image. */
 	private ImageIcon image;
 	//Methods
 	/**
-	 * Image Resize constructor
-	 * @param ImageIcon <- image
-	 * @param int <- width to change the image
-	 * @param int <- height to change the image
+	 * Image Resize constructor.
+	 *
+	 * @param image the image
+	 * @param width the width
+	 * @param height the height
 	 */
 	public ImageResize(ImageIcon image, int width, int height) {
 		this.width = width;
@@ -33,11 +44,13 @@ public class ImageResize {
 		this.imageType = image.getDescription();
 		this.imageType = this.imageType.substring(this.imageType.indexOf(".")+1, this.imageType.length());
 	}
+	
 	/**
-	 * Image Resize constructor
-	 * @param Icon <- image
-	 * @param int <- width to change the image
-	 * @param int <- height to change the image
+	 * Image Resize constructor.
+	 *
+	 * @param image the image
+	 * @param width the width
+	 * @param height the height
 	 */
 	public ImageResize(Icon image, int width, int height) {
 		this.width = width;
@@ -46,10 +59,12 @@ public class ImageResize {
 		this.imageType = image.toString();
 		this.imageType = this.imageType.substring(this.imageType.indexOf(".")+1, this.imageType.length());
 	}
+	
 	/**
 	 * Changed the icon object to an Image object so it 
 	 * can be manipulated and resized.
-	 * @param Icon <- icon
+	 *
+	 * @param icon the icon
 	 * @return Image
 	 */
 	private Image iconToImage(Icon icon) {
@@ -70,8 +85,10 @@ public class ImageResize {
 		      return image;
 		   }
 	}
+	
 	/**
-	 * Resizes the image and returns it with the new size
+	 * Resizes the image and returns it with the new size.
+	 *
 	 * @return ImageIcon
 	 */
 	public ImageIcon resize() {

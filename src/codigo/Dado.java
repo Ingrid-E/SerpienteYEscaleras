@@ -1,3 +1,9 @@
+/*
+ * Programación interactiva
+ * Autor: Ingrid Echeverry Montoya - 
+ * Autor: Jhan Alejandro Perez Umbarila - 1941003
+ * Juego de escaleras y serpientes 
+ */
 package codigo;
 
 import java.awt.image.BufferedImage;
@@ -12,15 +18,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Dado. Contiene el dado que se va a usar durante todo el juego
+ */
 public class Dado extends JPanel{
 	private static final long serialVersionUID = 1L;
-	//atributos
 	private int lado;
 	private ImageIcon[] cara = asignarImagenes();
 	private JLabel dado = new JLabel();
 	private Timer timer;
 	protected static final int tama = 60;
 
+	/**
+	 * Instantiates a new dado. Constructor donde se crean y asignan los valores por defecto (iniciales) de cada uno de los atributos.
+	 */
 	//constructor
 	public Dado() {
 		this.setLayout(null);
@@ -31,6 +43,10 @@ public class Dado extends JPanel{
 	}
 
 	
+	/**
+	 * Asignar imagenes. Permite asignar imagenes a cada lado del dado
+	 * @return the image icon[]
+	 */
 	private ImageIcon[] asignarImagenes() {
 		ImageIcon[] imagenes = new ImageIcon[6];
 		InputStream input;
@@ -52,6 +68,10 @@ public class Dado extends JPanel{
 	}
 	
 	
+	/**
+	 * Lanzar. Genera un numero random del (0-5), a partir del cual se le asignara una imagen al dado con la cantidad de puntos 
+     correspondientes (0: lado1 - 5: lado6) 
+	 */
 	//Animaciï¿½n del dado girando
 	public void lanzar() {
 		int fps = 80;
@@ -77,10 +97,18 @@ public class Dado extends JPanel{
 		}, 0, fps);
 	}
 	
+	/**
+	 * Timer. Retorna el timer de la clase
+	 * @return the timer
+	 */
 	public Timer timer() {
 		return timer;
 	}
 	
+	/**
+	 * Lado. Retorna la cantidad de puntos que tiene el lado del dado en pantalla. 
+	 * @return the int
+	 */
 	public int lado() {
 		return lado;
 	}
