@@ -1,5 +1,5 @@
 /*
- * Programación interactiva
+ * Programaciï¿½n interactiva
  * Autor: Ingrid Echeverry Montoya - 
  * Autor: Jhan Alejandro Perez Umbarila - 1941003
  * Juego de escaleras y serpientes 
@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import complementos.ImageResize;
@@ -52,6 +53,7 @@ public class Tabla extends JFrame {
 	private static JPanel jugar = boton("Jugar");
 	private static JPanel reglas = boton("Reglas");
 	private static JLabel salir = new JLabel("x");
+	private static JLabel volver = new JLabel("<");
 	protected static JPanel lanzar = boton("Lanzar", 93,30,24);
 	private Escucha escucha = new Escucha();
 	protected static Dado dado = new Dado();
@@ -60,6 +62,7 @@ public class Tabla extends JFrame {
 	private static Ficha ficha3 = new Ficha(Color.BLUE);
 	private static Jugador jugador1,jugador2, jugador3;
 	private static Controlador controlador;
+	private static String ventanaActual;
 	
 	
 	/**
@@ -83,6 +86,11 @@ public class Tabla extends JFrame {
 		salir.setFont(fuente.deriveFont(36f));
 		salir.setBounds(602, 0, 21, 44);
 		salir.addMouseListener(escucha);
+		
+		volver.setForeground(Color.WHITE);
+		volver.setFont(fuente.deriveFont(30f));
+		volver.setBounds(10, 0, 20, 44);
+		volver.addMouseListener(escucha);
 		
 		serpiente = new JLabel();
 		serpiente.setIcon(imgSnake);
@@ -128,12 +136,15 @@ public class Tabla extends JFrame {
 		switch(nombre) {
 		case "Menu":
 			menu();
+			ventanaActual = "Menu";
 			break;
 		case "Juego":
 			juego();
+			ventanaActual = "Juego";
 			break;
 		case "Reglas":
 			reglas();
+			ventanaActual = "Reglas";
 			break;
 		}
 		ventana.revalidate();
@@ -164,6 +175,7 @@ public class Tabla extends JFrame {
 	private static void reglas() {
 		fondoReglas.setIcon(imgReglas);
 		fondoReglas.setBounds(0,0,630,700);
+		ventana.add(volver);
 		ventana.add(fondoReglas);
 	}
 	
@@ -204,6 +216,7 @@ public class Tabla extends JFrame {
 		Tabla.lanzar.setVisible(true);
 		
 		ventana.add(dado);
+		ventana.add(volver);
 		ventana.add(iconoJugador1);
 		ventana.add(iconoJugador2);
 		ventana.add(iconoJugador3);
@@ -226,7 +239,7 @@ public class Tabla extends JFrame {
 	
 	
 	/**
-	 * The Class Escucha. Contiene metodos que permiten la interacción con la ventana a partir de eventos del mouse
+	 * The Class Escucha. Contiene metodos que permiten la interacciï¿½n con la ventana a partir de eventos del mouse
 	 */
 	public class Escucha extends MouseAdapter {
 		
@@ -244,11 +257,21 @@ public class Tabla extends JFrame {
 				System.exit(0);
 			}else if(e.getSource().equals(jugar)) {
 				cambiarVentana("Juego");
+			}else if(e.getSource().equals(volver) && ventanaActual == "Juego") {
+				Object opciones[] = {"Menu", "Reiniciar"};
+				int opcionVolver = JOptionPane.showOptionDialog(ventana, "Volver a menu principal?", "", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[1]);
+				if(opcionVolver == 0) {
+					cambiarVentana("Menu");
+				}else if(opcionVolver == 1) {
+					cambiarVentana("Juego");
+				}
+			}else if(e.getSource().equals(volver) && ventanaActual == "Reglas") {
+				cambiarVentana("Menu");
 			}
 		}
 		
 		/**
-		 * Mouse pressed. Cada que se presione en algún lugar de la ventana, las coordenadas x,y van a actualizarse
+		 * Mouse pressed. Cada que se presione en algï¿½n lugar de la ventana, las coordenadas x,y van a actualizarse
 		 * @param e the e
 		 */
 		@Override
