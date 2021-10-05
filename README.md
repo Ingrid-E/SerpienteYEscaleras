@@ -6,7 +6,11 @@ Este juego es multijugador, es decir, el jugador humano, jugará contra dos juga
 El jugador 1 siempre será el jugador humano.  El jugador 2 y 3 serán los subprocesos o hilos.
 
 
+![Animacion](https://github.com/Ingrid-E/SerpienteYEscaleras/blob/main/externos/Demostracion.gif)
 
+![Img1](https://github.com/Ingrid-E/SerpienteYEscaleras/blob/main/externos/Captura1.PNG)
+
+![Img2](https://github.com/Ingrid-E/SerpienteYEscaleras/blob/main/externos/CapturaJuego.PNG)
 
 
 
