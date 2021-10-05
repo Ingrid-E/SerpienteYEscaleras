@@ -10,10 +10,10 @@ package codigo;
 /**
  * The Class Controlador. Se le da un comportamiento artificial a los jugadores 2 y 3 (verde, azul) 
  */
-public class Controlador implements Runnable{
+public class Controlador extends Thread implements Runnable{
 	private Jugador jugador2, jugador3;
 	protected int turno;
-	private static Thread hilo;
+	protected static Thread hilo;
 	
 	/**
 	 * Instantiates a new controlador. Constructor donde se crean y asignan los valores por defecto (iniciales) de cada uno de los atributos.
@@ -50,7 +50,7 @@ public class Controlador implements Runnable{
 				if(jugador2.serpiente || jugador2.escalera) {
 					hilo.sleep(1500);
 				}
-				if(!jugador2.gano) {
+				if(!jugador2.gano && !Tabla.reiniciar) {
 					turno++;
 					run();
 				}
@@ -86,5 +86,7 @@ public class Controlador implements Runnable{
 		}
 		
 	}
+
+	
 	
 }

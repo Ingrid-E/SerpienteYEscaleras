@@ -74,6 +74,10 @@ public class Jugador{
 				if((posicion + movimientos) > 100) {
 					timer.cancel();
 				}
+				if(Tabla.reiniciar) {
+					Tabla.cambiarVentana("Juego");
+					timer.cancel();
+				}
 				if(posicion==100) {
 					Object opciones[] = {"Otra", "Terminar"};
 					String ganador;
@@ -127,7 +131,6 @@ public class Jugador{
 						}
 						serpiente = false;
 						escalera = false;
-						System.out.println("Jugador: " + turno + " Posicion: " + posicion);
 						timer.cancel();
 					}
 					

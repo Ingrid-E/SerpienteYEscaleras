@@ -63,6 +63,7 @@ public class Tabla extends JFrame {
 	private static Jugador jugador1,jugador2, jugador3;
 	private static Controlador controlador;
 	private static String ventanaActual;
+	protected static Boolean reiniciar = false;
 	
 	
 	/**
@@ -130,7 +131,7 @@ public class Tabla extends JFrame {
 	 * Cambiar ventana. Permite al usuario acceder a las diferentes ventanas en la interfaz del menu principal (jugar, reglas)
 	 * @param nombre the nombre
 	 */
-	private static void cambiarVentana(String nombre) {
+	protected static void cambiarVentana(String nombre) {
 		ventana.getContentPane().removeAll();
 		ventana.add(salir);
 		switch(nombre) {
@@ -261,8 +262,10 @@ public class Tabla extends JFrame {
 				Object opciones[] = {"Menu", "Reiniciar"};
 				int opcionVolver = JOptionPane.showOptionDialog(ventana, "Volver a menu principal?", "", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[1]);
 				if(opcionVolver == 0) {
+					controlador.hilo.interrupt();
 					cambiarVentana("Menu");
 				}else if(opcionVolver == 1) {
+					reiniciar = true;
 					cambiarVentana("Juego");
 				}
 			}else if(e.getSource().equals(volver) && ventanaActual == "Reglas") {
@@ -401,6 +404,7 @@ public class Tabla extends JFrame {
 			 */
 			public void mouseClicked(MouseEvent e) {
 				if(text.getText() == "Lanzar") {
+					reiniciar = false;
 					dado.lanzar();
 					lanzar.setVisible(false);
 					Timer timer = new Timer();
@@ -421,7 +425,7 @@ public class Tabla extends JFrame {
 								if(jugador1.serpiente || jugador1.escalera) {
 									terminar = counter + 2;
 								}else if(counter == terminar){
-									if(!jugador1.gano) {
+									if(!jugador1.gano && !reiniciar) {
 										controlador.turno = 2;
 										controlador.run();
 									}
